@@ -28,12 +28,18 @@ test("getSemanticTokens marks keywords, numbers, definitions, comments, and stri
 
 test("getDiagnostics reports unbalanced parentheses", () => {
   const diagnostics = getDiagnostics(`(defn broken [x]\n  (+ x 1)\n`);
-  assert.ok(diagnostics.some((diagnostic) => diagnostic.message === "Unclosed opening parenthesis."));
+  const unclosed = diagnostics.find((diagnostic) => diagnostic.message === "Unclosed opening parenthesis.");
+  assert.ok(unclosed);
+  assert.equal(unclosed.line, 0);
+  assert.equal(unclosed.start, 0);
 });
 
 test("getDiagnostics reports unterminated string", () => {
   const diagnostics = getDiagnostics(`(defn broken []\n  "oops\n)`);
-  assert.ok(diagnostics.some((diagnostic) => diagnostic.message === "Unterminated string literal."));
+  const unterminated = diagnostics.find((diagnostic) => diagnostic.message === "Unterminated string literal.");
+  assert.ok(unterminated);
+  assert.equal(unterminated.line, 1);
+  assert.equal(unterminated.start, 2);
 });
 
 test("getSemanticTokens marks unterminated strings", () => {

@@ -60,12 +60,45 @@ function collectRegexMatches(lines, tokens, occupancy, regex, type) {
   }
 }
 
+function collectStringTokens(lines, tokens, occupancy) {
+  for (let lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
+    const lineText = lines[lineIndex];
+    let position = 0;
+
+    while (position < lineText.length) {
+      if (lineText[position] !== "\"") {
+        position += 1;
+        continue;
+      }
+
+      const start = position;
+      position += 1;
+      let escaped = false;
+
+      while (position < lineText.length) {
+        const char = lineText[position];
+        if (!escaped && char === "\"") {
+          position += 1;
+          break;
+        }
+        escaped = !escaped && char === "\\";
+        if (char !== "\\") {
+          escaped = false;
+        }
+        position += 1;
+      }
+
+      addToken(tokens, occupancy, lineIndex, start, position, "string");
+    }
+  }
+}
+
 function getSemanticTokens(text) {
   const lines = text.split(/\r?\n/);
   const tokens = [];
   const occupancy = createOccupancy(lines);
 
-  collectRegexMatches(lines, tokens, occupancy, /"([^"\\]|\\.)*"?/g, "string");
+  collectStringTokens(lines, tokens, occupancy);
   collectRegexMatches(lines, tokens, occupancy, /;.*$/g, "comment");
 
   for (let lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
