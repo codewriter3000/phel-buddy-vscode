@@ -1,0 +1,74 @@
+{
+  "name": "Phel",
+  "scopeName": "source.phel",
+  "patterns": [
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#string"
+    },
+    {
+      "include": "#keyword"
+    },
+    {
+      "include": "#number"
+    },
+    {
+      "include": "#definition"
+    }
+  ],
+  "repository": {
+    "comment": {
+      "patterns": [
+        {
+          "name": "comment.line.semicolon.phel",
+          "match": ";.*$"
+        }
+      ]
+    },
+    "string": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.phel",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.phel",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "keyword": {
+      "patterns": [
+        {
+          "name": "keyword.control.phel",
+          "match": "\\b(def|defn|do|fn|if|let|loop|match|ns|recur|require|use|when)\\b"
+        }
+      ]
+    },
+    "number": {
+      "patterns": [
+        {
+          "name": "constant.numeric.phel",
+          "match": "\\b\\d+(?:\\.\\d+)?\\b"
+        }
+      ]
+    },
+    "definition": {
+      "patterns": [
+        {
+          "name": "entity.name.function.phel",
+          "match": "(?<=(\\(defn\\s+))[^\\s\\)\\]\\}]+"
+        },
+        {
+          "name": "variable.other.definition.phel",
+          "match": "(?<=(\\(def\\s+))[^\\s\\)\\]\\}]+"
+        }
+      ]
+    }
+  }
+}

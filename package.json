@@ -1,0 +1,54 @@
+{
+  "name": "phel-buddy-vscode",
+  "displayName": "Phel Buddy",
+  "version": "0.0.1",
+  "description": "A VSCode extension that provides both syntax highlighting and linting for the Phel programming language.",
+  "main": "./src/extension.js",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "activationEvents": [
+    "onLanguage:phel"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "phel",
+        "aliases": [
+          "Phel",
+          "phel"
+        ],
+        "extensions": [
+          ".phel"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "phel",
+        "scopeName": "source.phel",
+        "path": "./syntaxes/phel.tmLanguage.json"
+      }
+    ]
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codewriter3000/phel-buddy-vscode.git"
+  },
+  "keywords": [],
+  "author": "codewriter3000",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/codewriter3000/phel-buddy-vscode/issues"
+  },
+  "homepage": "https://github.com/codewriter3000/phel-buddy-vscode#readme"
+}
