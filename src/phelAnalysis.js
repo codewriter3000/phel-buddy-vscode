@@ -65,7 +65,7 @@ function getSemanticTokens(text) {
   const tokens = [];
   const occupancy = createOccupancy(lines);
 
-  collectRegexMatches(lines, tokens, occupancy, /"([^"\\]|\\.)*"/g, "string");
+  collectRegexMatches(lines, tokens, occupancy, /"([^"\\]|\\.)*"?/g, "string");
   collectRegexMatches(lines, tokens, occupancy, /;.*$/g, "comment");
 
   for (let lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {

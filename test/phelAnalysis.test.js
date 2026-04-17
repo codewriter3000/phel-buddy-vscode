@@ -35,3 +35,8 @@ test("getDiagnostics reports unterminated string", () => {
   const diagnostics = getDiagnostics(`(defn broken []\n  "oops\n)`);
   assert.ok(diagnostics.some((diagnostic) => diagnostic.message === "Unterminated string literal."));
 });
+
+test("getSemanticTokens marks unterminated strings", () => {
+  const tokens = getSemanticTokens(`(defn broken []\n  "oops\n)`);
+  assert.ok(tokens.some((token) => TOKEN_TYPES[token.type] === "string" && token.line === 1));
+});
