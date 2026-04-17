@@ -77,13 +77,21 @@ function collectStringTokens(lines, tokens, occupancy) {
 
       while (position < lineText.length) {
         const char = lineText[position];
-        if (!escaped && char === "\"") {
+        if (escaped) {
+          escaped = false;
+          position += 1;
+          continue;
+        }
+
+        if (char === "\\") {
+          escaped = true;
+          position += 1;
+          continue;
+        }
+
+        if (char === "\"") {
           position += 1;
           break;
-        }
-        escaped = !escaped && char === "\\";
-        if (char !== "\\") {
-          escaped = false;
         }
         position += 1;
       }
@@ -160,11 +168,20 @@ function getDiagnostics(text) {
       }
 
       if (inString) {
-        if (!escaped && char === "\"") {
+        if (escaped) {
+          escaped = false;
+          continue;
+        }
+
+        if (char === "\\") {
+          escaped = true;
+          continue;
+        }
+
+        if (char === "\"") {
           inString = false;
           stringStart = null;
         }
-        escaped = !escaped && char === "\\";
         continue;
       }
 
